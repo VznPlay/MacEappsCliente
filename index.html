@@ -6,16 +6,6 @@
     <title>Grupo-Vznplay</title>
     <link rel="icon" href="favicon-32x32.png" type="image/x-icon">
 
-    <!-- Código do Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0N6D6EWQ33"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-0N6D6EWQ33');
-    </script>
-
     <style>
         * {
             box-sizing: border-box;
@@ -36,7 +26,7 @@
 
         .container {
             width: 100%;
-            max-width: 600px;
+            max-width: 700px; /* Aumentado para ampliar o quadrado do meio */
             padding: 20px;
             background-color: #12233d;
             border-radius: 10px;
@@ -51,6 +41,11 @@
         form {
             display: flex;
             flex-direction: column;
+        }
+
+        .row {
+            display: flex;
+            gap: 10px;
         }
 
         input[type="text"] {
@@ -79,15 +74,6 @@
             background-color: #fff;
         }
 
-        .row {
-            display: flex;
-            gap: 10px;
-        }
-
-        .row input[type="text"] {
-            width: calc(50% - 5px);
-        }
-
         button {
             padding: 10px;
             font-size: 1em;
@@ -96,20 +82,12 @@
             color: #ffffff;
             border-radius: 5px;
             cursor: pointer;
-            font-weight: 300;
-        }
-
-        .delete.btn {
-            color: white;
         }
 
         .add-btn {
             background-color: #15ff00;
             color: black;
             font-weight: bold;
-        }
-
-        .add-btn{
             font-size: 1.4em;
         }
 
@@ -128,7 +106,6 @@
             display: none;
         }
 
-        /* Campo de pesquisa */
         .search-box {
             padding: 10px;
             font-size: 1em;
@@ -136,7 +113,6 @@
             margin: 15px 0;
         }
 
-        /* Lista de clientes */
         .data-list {
             margin-top: 20px;
             width: 100%;
@@ -167,101 +143,6 @@
         .data-list th {
             background-color: #e0e0e0;
         }
-
-        /* CODIGO ABAIXO E DOS OUTROS SITES */
-        .catalogo {
-            display: flex;
-            gap: 7px;
-        }
-
-        .sug {
-            margin-right: 8px;
-        }
-
-        section {
-            background-color:rgb(42, 99, 45); /* Azul forte */
-            padding: 5px;
-            display: flex;
-            border: 2px solid #333; /* Borda para destaque */
-            color: #fff; /* Cor do texto para contraste */
-            border-radius: 7px;
-        }
-
-        section a {
-            text-decoration: none;
-            color: #ffffff;
-            font-size: 16px;
-        }
-
-        .icon {
-            width: 35px;
-            height: 35px;
-            margin: 2px;
-        }
-
-        #pac-man, #macs {
-            margin-left: 25px;
-            margin-right: 25px;
-        }
-
-        a {
-            cursor: pointer;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                width: 100%;
-            }
-
-            h1 {
-                font-size: 1.8em;
-            }
-
-            input[type="text"], .search-box, button {
-                font-size: 0.9em;
-                padding: 10px;
-            }
-
-            .data-list th, .data-list td {
-                font-size: 0.8em;
-                padding: 6px;
-            }
-
-            .catalogo {
-                display: flex;
-                gap: 2px;
-            }
-
-            .sug {
-                margin-left: 0px;
-                margin-right: 0px;
-            }
-
-            section {
-                background-color:rgb(42, 99, 45);
-                padding: 3px;
-                display: flex;
-                border: 1px solid #333;
-                color: #fff;
-                border-radius: 7px;
-            }
-
-            section a {
-                text-decoration: none;
-                color: #ffffff;
-                font-size: 9px;
-            }
-
-            .icon {
-                width: 24px;
-                height: 24px;
-            }
-
-            #pac-man, #macs {
-                margin-left: 15px;
-                margin-right: 15px;
-            }
-        }
     </style>
 </head>
 <body>
@@ -269,48 +150,12 @@
     <div class="container">
         <h1>Cadastro de Cliente - VznPlay</h1>
 
-        <div class="catalogo">
-            <section class="sug">
-                <a href="https://voltemastarde.vercel.app" target="_blank">
-                    <img src="sugestao.png" alt="Ícone Sugestão" class="icon">
-                    SUGESTÕES
-                </a>
-            </section>
-            <section>
-                <a href="https://vznplay.vercel.app/facilitador/facilita.html" target="_blank">
-                    <img src="facilitador.png" alt="Ícone Facilitador" class="icon">
-                    Facilitador
-                </a>
-            </section>
-            <section>
-                <a href="https://gerenciador-seven.vercel.app" target="_blank">
-                    <img src="gerenciador.png" alt="Ícone Gerenciador" class="icon">
-                    Gerenciador
-                </a>
-            </section>
-            <section>
-                <a href="https://voltemastarde.vercel.app" target="_blank">
-                    <img id="pac-man" src="papa_teste.png" alt="Ícone Papa Teste" class="icon"> <br>
-                    Papa teste
-                </a>
-            </section>
-            <section>
-                <a href="https://sistema-sorteio.vercel.app" target="_blank">
-                    <img id="macs" src="sorteio.png" alt="Ícone Organização" class="icon"> <br>
-                    Sorteio
-                </a>
-            </section>
-        </div> <br>
         <form id="clientForm">
             <input type="text" id="nome" maxlength="20" placeholder="Nome Do Cliente" required>
             <input type="text" id="app" maxlength="15" placeholder="Nome do aplicativo" required>
             <div class="row">
-                <input type="text" id="mac" placeholder="Mac do cliente" required oninput="formatarMac()">
+                <input type="text" id="mac" placeholder="Mac do cliente" maxlength="17" required oninput="formatarMac()">
                 <input type="text" id="key" maxlength="7" placeholder="Chave Key" required>
-            </div>
-            <div class="separator">
-                <div></div>
-                <div></div>
             </div>
             <button type="button" class="add-btn" onclick="adicionarCliente()">Adicionar</button>
             <p class="success-message" id="successMessage">Usuário adicionado!</p>
