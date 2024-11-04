@@ -7,14 +7,14 @@
     <link rel="icon" href="favicon-32x32.png" type="image/x-icon">
 
     <!-- Código do Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=SEU_ID_DE_RASTREAMENTO"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script async src="https://www.googletagmanager.com/gtag/js?id=SEU_ID_DE_RASTREAMENTO"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-  gtag('config', 'SEU_ID_DE_RASTREAMENTO');
-</script>
+        gtag('config', 'SEU_ID_DE_RASTREAMENTO');
+    </script>
 
     <style>
         * {
@@ -77,6 +77,15 @@
             flex: 1;
             height: 1px;
             background-color: #fff;
+        }
+
+        .row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .row input[type="text"] {
+            width: calc(50% - 5px);
         }
 
         button {
@@ -159,47 +168,45 @@
             background-color: #e0e0e0;
         }
 
+        /* CODIGO ABAIXO E DOS OUTROS SITES */
+        .catalogo {
+            display: flex;
+            gap: 7px;
+        }
 
-        /* CODIGO ABAIXO E DOS OUTROS SITES*/
-.catalogo {
-    display: flex;
-    gap: 7px;
-}
+        .sug {
+            margin-right: 8px;
+        }
 
-.sug{
-    margin-right: 8px;
-}
+        section {
+            background-color:rgb(42, 99, 45); /* Azul forte */
+            padding: 5px;
+            display: flex;
+            border: 2px solid #333; /* Borda para destaque */
+            color: #fff; /* Cor do texto para contraste */
+            border-radius: 7px;
+        }
 
-section {
-    background-color:rgb(42, 99, 45); /* Azul forte */
-    padding: 5px;
-    display: flex;
-    border: 2px solid #333; /* Borda para destaque */
-    color: #fff; /* Cor do texto para contraste */
-    border-radius: 7px;
-}
+        section a {
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 16px;
+        }
 
-section a {
-    text-decoration: none;
-    color: #ffffff;
-    font-size: 16px;
-}
+        .icon {
+            width: 35px;
+            height: 35px;
+            margin: 2px;
+        }
 
-.icon {
-    width: 35px;
-    height: 35px;
-    margin: 2px;
-}
-#pac-man, #macs{
-margin-left: 25px;
-margin-right: 25px;
-}
-a{
-    cursor: pointer;
-}
-/* CODIGO ACIMA E DOS AQUADRADOS DE OUTROS APPS*/
+        #pac-man, #macs {
+            margin-left: 25px;
+            margin-right: 25px;
+        }
 
-
+        a {
+            cursor: pointer;
+        }
 
         @media (max-width: 600px) {
             .container {
@@ -220,49 +227,41 @@ a{
                 padding: 6px;
             }
 
-    
+            .catalogo {
+                display: flex;
+                gap: 2px;
+            }
 
+            .sug {
+                margin-left: 0px;
+                margin-right: 0px;
+            }
 
-.catalogo {
-display: flex;
-gap: 2px;
-}
+            section {
+                background-color:rgb(42, 99, 45);
+                padding: 3px;
+                display: flex;
+                border: 1px solid #333;
+                color: #fff;
+                border-radius: 7px;
+            }
 
-.sug{
-margin-left: 0px;
-margin-right: 0px;
-}
+            section a {
+                text-decoration: none;
+                color: #ffffff;
+                font-size: 9px;
+            }
 
-section {
-    background-color:rgb(42, 99, 45); /* Azul forte */
-    padding: 3px;
-    display: flex;
-    border: 1px solid #333; /* Borda para destaque */
-    color: #fff; /* Cor do texto para contraste */
-    border-radius: 7px;
-}
+            .icon {
+                width: 24px;
+                height: 24px;
+            }
 
-section a {
-    text-decoration: none;
-    color: #ffffff;
-    font-size: 9px;
-}
-
-.icon {
-    width: 24px;
-    height: 24px;
-
-}
-#pac-man, #macs{
-margin-left: 15px;
-margin-right: 15px;
-
-}
-
-
+            #pac-man, #macs {
+                margin-left: 15px;
+                margin-right: 15px;
+            }
         }
-
-
     </style>
 </head>
 <body>
@@ -305,7 +304,10 @@ margin-right: 15px;
         <form id="clientForm">
             <input type="text" id="nome" maxlength="20" placeholder="Nome Do Cliente" required>
             <input type="text" id="app" maxlength="15" placeholder="Nome do aplicativo" required>
-            <input type="text" id="mac" placeholder="Mac do cliente" required oninput="formatarMac()">
+            <div class="row">
+                <input type="text" id="mac" placeholder="Mac do cliente" required oninput="formatarMac()">
+                <input type="text" id="key" maxlength="7" placeholder="Chave Key" required>
+            </div>
             <div class="separator">
                 <div></div>
                 <div></div>
@@ -314,110 +316,92 @@ margin-right: 15px;
             <p class="success-message" id="successMessage">Usuário adicionado!</p>
         </form>
 
-        <!-- Campo de pesquisa -->
-        <input type="text" class="search-box" id="searchBox" placeholder="Pesquisar por nome, app ou MAC" oninput="filtrarClientes()">
+        <input type="text" id="search" class="search-box" placeholder="Pesquisar Cliente">
 
-        <div class="data-list" id="dataList">
+        <div class="data-list" id="clientList">
             <h2>Lista de Clientes</h2>
             <table>
                 <thead>
                     <tr>
                         <th>Nome</th>
-                        <th>App</th>
+                        <th>Aplicativo</th>
                         <th>MAC</th>
-                        <th>Deletar</th>
+                        <th>Key</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
-                <tbody id="clientTableBody">
-                    <!-- Os dados aparecerão aqui -->
-                </tbody>
+                <tbody id="clientTableBody"></tbody>
             </table>
         </div>
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            carregarClientes();
-        });
-
-        function formatarMac() {
-            const macField = document.getElementById("mac");
-            let mac = macField.value.replace(/[^A-Fa-f0-9]/g, '').toUpperCase();
-
-            if (mac.length > 12) {
-                mac = mac.slice(0, 12);
-            }
-
-            let formattedMac = '';
-            for (let i = 0; i < mac.length; i += 2) {
-                if (i > 0) formattedMac += ':';
-                formattedMac += mac.slice(i, i + 2);
-            }
-
-            macField.value = formattedMac;
-        }
+        const clients = JSON.parse(localStorage.getItem('clients')) || [];
 
         function adicionarCliente() {
-            const nome = document.getElementById('nome').value.trim();
-            const app = document.getElementById('app').value.trim();
-            const mac = document.getElementById('mac').value.trim();
+            const nome = document.getElementById('nome').value;
+            const app = document.getElementById('app').value;
+            const mac = document.getElementById('mac').value;
+            const key = document.getElementById('key').value;
 
-            if (!nome || !app || !mac) {
-                alert("Por favor, preencha todos os campos.");
+            if (!nome || !app || !mac || !key) {
+                alert('Preencha todos os campos.');
                 return;
             }
 
-            const clientes = JSON.parse(localStorage.getItem("clientes") || "[]");
-            clientes.push({ nome, app, mac });
-            localStorage.setItem("clientes", JSON.stringify(clientes));
+            const client = { nome, app, mac, key };
+            clients.push(client);
 
-            exibirClientes();
+            localStorage.setItem('clients', JSON.stringify(clients));
+            atualizarTabela();
             document.getElementById('clientForm').reset();
-            const successMessage = document.getElementById("successMessage");
-            successMessage.style.display = "block";
-            setTimeout(() => successMessage.style.display = "none", 2000);
+            document.getElementById('successMessage').style.display = 'block';
+
+            setTimeout(() => {
+                document.getElementById('successMessage').style.display = 'none';
+            }, 2000);
         }
 
-        function exibirClientes(filtro = '') {
-            const clientes = JSON.parse(localStorage.getItem("clientes") || "[]");
-            const tabela = document.getElementById('clientTableBody');
-            tabela.innerHTML = "";
+        function atualizarTabela() {
+            const clientTableBody = document.getElementById('clientTableBody');
+            clientTableBody.innerHTML = '';
 
-            clientes.forEach((cliente, index) => {
-                if (
-                    filtro &&
-                    !cliente.nome.toLowerCase().includes(filtro) &&
-                    !cliente.app.toLowerCase().includes(filtro) &&
-                    !cliente.mac.toLowerCase().includes(filtro)
-                ) return;
-
-                const novaLinha = document.createElement('tr');
-                novaLinha.innerHTML = `
-                    <td>${cliente.nome}</td>
-                    <td>${cliente.app}</td>
-                    <td>${cliente.mac}</td>
-                    <td><button class="delete-btn" onclick="deletarCliente(${index})">Deletar</button></td>
+            clients.forEach((client, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${client.nome}</td>
+                    <td>${client.app}</td>
+                    <td>${client.mac}</td>
+                    <td>${client.key}</td>
+                    <td><button class="delete-btn" onclick="deletarCliente(${index})">Excluir</button></td>
                 `;
-                tabela.appendChild(novaLinha);
+                clientTableBody.appendChild(row);
             });
         }
 
-        function carregarClientes() {
-            exibirClientes();
-        }
-
-        function filtrarClientes() {
-            const filtro = document.getElementById('searchBox').value.trim().toLowerCase();
-            exibirClientes(filtro);
-        }
-
         function deletarCliente(index) {
-            const clientes = JSON.parse(localStorage.getItem("clientes") || "[]");
-            clientes.splice(index, 1);
-            localStorage.setItem("clientes", JSON.stringify(clientes));
-            exibirClientes();
+            clients.splice(index, 1);
+            localStorage.setItem('clients', JSON.stringify(clients));
+            atualizarTabela();
         }
-    </script>
 
+        function formatarMac() {
+            const macInput = document.getElementById('mac');
+            let mac = macInput.value.replace(/[^a-fA-F0-9]/g, '').toUpperCase();
+            mac = mac.match(/.{1,2}/g)?.join(':') || mac;
+            macInput.value = mac.substring(0, 17);
+        }
+
+        document.getElementById('search').addEventListener('input', function () {
+            const searchTerm = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#clientTableBody tr');
+            rows.forEach(row => {
+                const isVisible = row.innerText.toLowerCase().includes(searchTerm);
+                row.style.display = isVisible ? '' : 'none';
+            });
+        });
+
+        atualizarTabela();
+    </script>
 </body>
 </html>
