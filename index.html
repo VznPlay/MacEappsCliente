@@ -201,6 +201,27 @@ a {
     cursor: pointer;
 }
 
+    /* Estilo para a notificação de cópia */
+    .copy-alert {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border-radius: 5px;
+        font-size: 1em;
+        opacity: 0;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        transform: translateY(-20px);
+        z-index: 1000;
+    }
+
+    .copy-alert.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
 
 @media (max-width: 600px) {
     .container {
@@ -328,7 +349,7 @@ a {
     </style>
 </head>
 <body>
-
+    <div id="copyAlert" class="copy-alert"></div>
     <div class="container">
 
 
@@ -398,73 +419,94 @@ a {
         </div>
     </div>
 
+
     <script>
-        const clients = JSON.parse(localStorage.getItem('clients')) || [];
+         const clients = JSON.parse(localStorage.getItem('clients')) || [];
 
-        function adicionarCliente() {
-            const nome = document.getElementById('nome').value;
-            const app = document.getElementById('app').value;
-            const mac = document.getElementById('mac').value;
-            const key = document.getElementById('key').value;
+function adicionarCliente() {
+    const nome = document.getElementById('nome').value;
+    const app = document.getElementById('app').value;
+    const mac = document.getElementById('mac').value;
+    const key = document.getElementById('key').value;
 
-            if (!nome || !app || !mac || !key) {
-                alert('Preencha todos os campos.');
-                return;
-            }
+    if (!nome || !app || !mac || !key) {
+        alert('Preencha todos os campos.');
+        return;
+    }
 
-            const client = { nome, app, mac, key };
-            clients.push(client);
+    const client = { nome, app, mac, key };
+    clients.push(client);
 
-            localStorage.setItem('clients', JSON.stringify(clients));
-            atualizarTabela();
-            document.getElementById('clientForm').reset();
-            document.getElementById('successMessage').style.display = 'block';
+    localStorage.setItem('clients', JSON.stringify(clients));
+    atualizarTabela();
+    document.getElementById('clientForm').reset();
+    document.getElementById('successMessage').style.display = 'block';
 
-            setTimeout(() => {
-                document.getElementById('successMessage').style.display = 'none';
-            }, 2000);
-        }
+    setTimeout(() => {
+        document.getElementById('successMessage').style.display = 'none';
+    }, 2000);
+}
 
-        function atualizarTabela() {
-            const clientTableBody = document.getElementById('clientTableBody');
-            clientTableBody.innerHTML = '';
+function atualizarTabela() {
+    const clientTableBody = document.getElementById('clientTableBody');
+    clientTableBody.innerHTML = '';
 
-            clients.forEach((client, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${client.nome}</td>
-                    <td>${client.app}</td>
-                    <td>${client.mac}</td>
-                    <td>${client.key}</td>
-                    <td><button class="delete-btn" onclick="deletarCliente(${index})">Excluir</button></td>
-                `;
-                clientTableBody.appendChild(row);
-            });
-        }
+    clients.forEach((client, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td onclick="copiarTexto('${client.nome}', 'Nome')">${client.nome}</td>
+            <td onclick="copiarTexto('${client.app}', 'App')">${client.app}</td>
+            <td onclick="copiarTexto('${client.mac}', 'MAC')">${client.mac}</td>
+            <td onclick="copiarTexto('${client.key}', 'Key')">${client.key}</td>
+            <td><button class="delete-btn" onclick="deletarCliente(${index})">Excluir</button></td>
+        `;
+        clientTableBody.appendChild(row);
+    });
+}
 
-        function deletarCliente(index) {
-            clients.splice(index, 1);
-            localStorage.setItem('clients', JSON.stringify(clients));
-            atualizarTabela();
-        }
+function deletarCliente(index) {
+    clients.splice(index, 1);
+    localStorage.setItem('clients', JSON.stringify(clients));
+    atualizarTabela();
+}
 
-        function formatarMac() {
-            const macInput = document.getElementById('mac');
-            let mac = macInput.value.replace(/[^a-fA-F0-9]/g, '').toUpperCase();
-            mac = mac.match(/.{1,2}/g)?.join(':') || mac;
-            macInput.value = mac.substring(0, 17);
-        }
+function formatarMac() {
+    const macInput = document.getElementById('mac');
+    let mac = macInput.value.replace(/[^a-fA-F0-9]/g, '').toUpperCase();
+    mac = mac.match(/.{1,2}/g)?.join(':') || mac;
+    macInput.value = mac.substring(0, 17);
+}
 
-        document.getElementById('search').addEventListener('input', function () {
-            const searchTerm = this.value.toLowerCase();
-            const rows = document.querySelectorAll('#clientTableBody tr');
-            rows.forEach(row => {
-                const isVisible = row.innerText.toLowerCase().includes(searchTerm);
-                row.style.display = isVisible ? '' : 'none';
-            });
-        });
+function copiarTexto(texto, tipo) {
+    navigator.clipboard.writeText(texto).then(() => {
+        mostrarAlerta(`${tipo} copiado`);
+    }).catch(err => {
+        console.error('Erro ao copiar texto: ', err);
+    });
+}
 
-        atualizarTabela();
+function mostrarAlerta(mensagem) {
+    const alertDiv = document.getElementById('copyAlert');
+    alertDiv.textContent = mensagem;
+    alertDiv.classList.add('show');
+
+    setTimeout(() => {
+        alertDiv.classList.remove('show');
+    }, 3000);
+}
+
+document.getElementById('search').addEventListener('input', function () {
+    const searchTerm = this.value.toLowerCase();
+    const rows = document.querySelectorAll('#clientTableBody tr');
+    rows.forEach(row => {
+        const isVisible = row.innerText.toLowerCase().includes(searchTerm);
+        row.style.display = isVisible ? '' : 'none';
+    });
+});
+
+atualizarTabela();
     </script>
+
+
 </body>
 </html>
