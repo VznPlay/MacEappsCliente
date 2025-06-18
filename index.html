@@ -3,9 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grupo-Vznplay</title>
+    <title> Mac's  - Grupo Vznplay</title>
     <link rel="icon" href="favicon-32x32.png" type="image/x-icon">
 
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0a1a63;">
+<link rel="apple-touch-icon" href="/logo-01.png">
+
+
+    <!-- Adicionando a biblioteca jsPDF para exportar PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <!-- Adicionando a biblioteca SheetJS para exportar Excel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
 <!-- Código do Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-0N6D6EWQ33"></script>
@@ -17,8 +27,7 @@
     gtag('config', 'G-0N6D6EWQ33');
 </script>
 
-
-    <style>
+<style>
         * {
             box-sizing: border-box;
             margin: 0;
@@ -35,6 +44,45 @@
             color: #fff;
             flex-direction: column;
         }
+
+/* Estilos para a faixa */
+
+.banner {
+    width: 100%;
+    height: 45px;
+    background-color: #0073e6;
+    color: white;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 10px;
+}
+.marquee {
+    display: flex;
+    position: absolute;
+    height: 100%;
+    align-items: center;
+}
+.marquee-container {
+    display: flex;
+    animation: marquee 30s linear infinite;
+}
+.marquee-text {
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding: 0 8px; /* Espaço entre os textos */
+}
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+.marquee a {
+    color: #ffdd00;
+    font-weight: bold;
+    text-decoration: none;
+}
+.marquee a:hover {
+    text-decoration: underline;
+}
 
         .container {
             width: 100%;
@@ -122,11 +170,11 @@
             padding: 10px;
             font-size: 1em;
             border-radius: 5px;
-            margin: 15px 0;
+            margin-top: 10px;
         }
 
         .data-list {
-            margin-top: 20px;
+            margin-top: 10px; /* Reduzido o espaçamento superior */
             width: 100%;
             background-color: #ffffff;
             color: #000;
@@ -161,45 +209,66 @@
             background-color: #ff9100;
         }
 
-        /* CODIGO ABAIXO E DOS OUTROS SITES */
+
+
+/* CODIGO ABAIXO E DOS OUTROS SITES*/
 .catalogo {
     display: flex;
-    gap: 7px;
+    gap: 2px;
 }
-
-.sug {
-    margin-right: 8px;
+.sug{
+    margin-right: 3px;
 }
-
 section {
     background-color:rgb(42, 99, 45); /* Azul forte */
-    padding: 5px;
+    padding: 3px;
     display: flex;
     border: 2px solid #333; /* Borda para destaque */
     color: #fff; /* Cor do texto para contraste */
     border-radius: 7px;
 }
-
 section a {
     text-decoration: none;
     color: #ffffff;
-    font-size: 16px;
+    font-size: 14px;
+    text-align: center;
 }
-
 .icon {
-    width: 35px;
-    height: 35px;
-    margin: 2px;
+    width: 48px;
+    height: 45px;
 }
-
-#pac-man, #macs {
-    margin-left: 25px;
-    margin-right: 25px;
+#fatu{
+    width: 40px;
+    height: 40px;
+    margin-bottom: 5px;
 }
-
-a {
+.fotos{
+    width: 70px;
+    height: 50px;
+    margin-top: -5px;
+}
+.foto{
+    width: 50px;
+    height: 50px;
+    margin-top: -5px;
+}
+#pac-man{
+margin-left: 0px;
+margin-right: 0px;
+}
+#macs{
+    width: 50px;
+    height: 50px;
+margin-top: -6px;
+margin-left: 2px;
+margin-right: 2px;
+}
+a{
     cursor: pointer;
+    padding: 8px;
 }
+
+
 
     /* Estilo para a notificação de cópia */
     .copy-alert {
@@ -216,74 +285,252 @@ a {
         transform: translateY(-20px);
         z-index: 1000;
     }
-
     .copy-alert.show {
         opacity: 1;
         transform: translateY(0);
     }
 
+    /* Estilos para os botões de exportar/importar */
+    .export-import-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 2%; /* Reduzi o gap para 2% */
+    margin: 5px 0 10px 0;
+    width: 100%;
+}
+    
+.export-btn {
+    background-color: #4CAF50;
+    padding: 12px;
+    font-size: 1.1em;
+    width: 100%; /* Garante que o botão ocupa todo o container */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+    
+.import-btn {
+    background-color: #2196F3;
+    padding: 12px;
+    font-size: 1.1em;
+    width: 49%; /* Definindo largura fixa de 48% */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+    
+    .file-input {
+        display: none;
+    }
 
-@media (max-width: 600px) {
+    /* Modal de exportação */
+    .export-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.7);
+        z-index: 1001;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .export-modal-content {
+        background-color: #12233d;
+        padding: 20px;
+        border-radius: 10px;
+        width: 90%;
+        max-width: 500px;
+        color: white;
+        text-align: center;
+    }
+    
+    .export-modal h3 {
+        margin-bottom: 15px;
+        font-size: 1.5em;
+        color: #ff9100;
+    }
+    
+    .export-modal p {
+        margin-bottom: 20px;
+        font-size: 1em;
+    }
+    
+    .export-modal-note {
+        background-color: #1a3a6a;
+        padding: 10px;
+        border-radius: 5px;
+        margin: 15px 0;
+        font-size: 1em;
+        border-left: 4px solid #ff9100;
+    }
+    
+    .export-modal-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+    }
+    
+    .export-modal-btn {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    
+    .export-pdf-btn {
+        background-color: #e74c3c;
+        color: white;
+    }
+    
+    .export-excel-btn {
+        background-color: #2ecc71;
+        color: white;
+    }
+    
+    .export-both-btn {
+        background-color: #3498db;
+        color: white;
+    }
+    
+    .export-cancel-btn {
+        background-color: #95a5a6;
+        color: white;
+    }
+    
+    .export-modal-input {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        border: none;
+        font-size: 1em;
+    }
+    /* Ícone de notificação */
+    .export-notification {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #ff0000;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+    .export-btn-container {
+    position: relative;
+    width: 49%; /* Alterei de flex:1 para width:48% */
+    }
+    
+    .export-btn.has-notification {
+        position: relative;
+    }
+
+
+    @media (max-width: 700px) {
     .container {
         width: 100%;
     }
-
     h1 {
         font-size: 1.8em;
     }
-
     input[type="text"], .search-box, button {
         font-size: 0.9em;
         padding: 10px;
     }
-
     .data-list th, .data-list td {
         font-size: 0.8em;
         padding: 6px;
     }
 
-    .catalogo {
-        display: flex;
-        gap: 2px;
-    }
 
-    .sug {
-        margin-left: 0px;
-        margin-right: 0px;
-    }
 
-    section {
-        background-color:rgb(42, 99, 45);
-        padding: 3px;
-        display: flex;
-        border: 1px solid #333;
-        color: #fff;
-        border-radius: 7px;
-    }
 
-    section a {
-        text-decoration: none;
-        color: #ffffff;
-        font-size: 9px;
-    }
+.catalogo {
+    display: flex;
+    gap: 3px;
+    margin-left: -5px;
+}
+section {
+    background-color:rgb(42, 99, 45); /* Azul forte */
+    padding: 1px;
+    display: flex;
+    border: 1px solid #333; /* Borda para destaque */
+    color: #fff; /* Cor do texto para contraste */
+    border-radius: px;
+}
+section a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 8px;
+}
+.icon {
+    width: 25px;
+    height: 25px;
 
-    .icon {
-        width: 24px;
-        height: 24px;
-    }
+}
 
-    #pac-man, #macs {
-        margin-left: 15px;
-        margin-right: 15px;
-    }
+.sug a{
+font-size: 8px;
+}
+#fatu{
+    width: 23px;
+    height: 23px;
+    margin-bottom: 3px;
+    margin-top: -0px;
+}
+.foto{
+    width: 26px;
+    height: 26px;
+    margin-top: 0px;
+}
+#pac-man{
+margin-left: 0px;
+margin-right: 0px;
+}
+#macs{
+    width: 26px;
+    height: 26px;
+margin-left: 2px;
+margin-right: 2px;
+margin-top: -2px;
+}
+#img img{
+    width: 45px;
+    height: 30px;
+    margin-top: -4px;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+a{
+    cursor: pointer;
+    padding: 0px;
 }
 
 
 
-        /* Responsividade para telas menores */
-        @media (max-width: 600px) {
+    .export-modal-buttons {
+        flex-direction: column;
+    }
+    
+    .export-modal-btn {
+        width: 100%;
+    }
+    }
+
+/* Responsividade para telas menores */
+    @media (max-width: 600px) {
             h1 {
-                font-size: 1.5em;
+                font-size: 1.3em;
             }
 
             .add-btn {
@@ -344,65 +591,132 @@ a {
         margin-right: 15px;
     }
 
+    .export-modal-note {
+        font-size: .7em;
+    }
 
-        }
-    </style>
+
+    }
+
+
+</style>
+
+
 </head>
 <body>
     <div id="copyAlert" class="copy-alert"></div>
     <div class="container">
 
 
-<div class="catalogo">
-    <section class="sug">
-        <a href="https://facilitaplay.vercel.app" target="_blank">
-            <img src="facilitador.png" alt="Ícone Sugestão" class="icon">
-            FACILITADOR
-        </a>
-    </section>
-    <section>
-        <a href="https://planilhadefaturamneto.vercel.app" target="_blank">
-            <img src="fatura.png" alt="Ícone Facilitador" class="icon">
-            Faturamento
-        </a>
-    </section>
-    <section>
-        <a href="https://gerenciador-seven.vercel.app" target="_blank">
-            <img src="gerenciador.png" alt="Ícone Gerenciador" class="icon">
-            Gerenciador
-        </a>
-    </section>
-    <section>
-        <a href="https://t.me/antipapatesteiptvbot" target="_blank">
-            <img id="pac-man" src="papa_teste.png" alt="Ícone Papa Teste" class="icon"> <br>
-            Papa teste
-        </a>
-    </section>
-    <section>
-        <a href="https://sistema-sorteio.vercel.app" target="_blank">
-            <img id="macs" src="sorteio.png" alt="Ícone Organização" class="icon"> <br>
-            Sorteio
-        </a>
-    </section>
-</div><br>
+    <div class="catalogo">
+            <section class="sug">
+                <a href="https://facilitaplay.vercel.app" target="_blank">
+                    <img src="facilitador.png" alt="Ícone Sugestão" class="icon">
+                    FACILITADOR</a>
+            </section>
+            <section>
+                <a href="https://gerenciador-seven.vercel.app" target="_blank">
+                    <img src="anuidade.png" alt="Ícone Gerenciador" class="icon">
+                    Anuidade
+                </a>
+            </section>
+            <section>
+                <a href="https://macs-clientes.vercel.app" target="_blank">
+                    <img id="macs" src="sorteio.png" alt="Ícone Organização" class="icon"> <br>
+                    Sorteador
+                </a>
+            </section>
+            <section>
+                <a id="img" href="https://indicacoes-nu.vercel.app" target="_blank">
+                    <img id="pac-man" src="bonus.png" alt="Ícone Papa Teste" class="icon fotos"> <br>
+                    Indicação
+                </a>
+            </section>
+            <section>
+                <a href="https://calculo-ir.vercel.app" target="_blank">
+                    <img id="pac-man" src="imposto.png" alt="Ícone Papa Teste" class="icon foto"> <br>
+                    Simulador
+                </a>
+            </section>
+            <section>
+                <a href="https://planilhadefaturamneto.vercel.app" target="_blank">
+                    <img id="fatu" src="faturamento.png" alt="Ícone Facilitador" class="icon">
+                    Faturamento
+                </a>
+            </section>
+    </div><br>
 
-<h1>Cadastro de Cliente - VznPlay</h1>
-        
+<h1>Cadastro De Mac's - VznPlay</h1>
 
-        <form id="clientForm">
+    <form id="clientForm">
+
+            <div class="row">
             <input type="text" id="nome" maxlength="20" placeholder="Nome Do Cliente" required>
             <input type="text" id="app" maxlength="15" placeholder="Nome do aplicativo" required>
+            </div>
+
             <div class="row">
                 <input type="text" id="mac" placeholder="Mac do cliente" maxlength="17" required oninput="formatarMac()">
                 <input type="text" id="key" maxlength="7" placeholder="Chave Key" required>
             </div>
             <button type="button" class="add-btn" onclick="adicionarCliente()">Adicionar</button>
             <p class="success-message" id="successMessage">Usuário adicionado!</p>
-        </form>
+    </form>
 
-        <input type="text" id="search" class="search-box" placeholder="Pesquisar Cliente">
+    <input type="text" id="search" class="search-box" placeholder="Pesquisar Cliente">
 
-        <div class="data-list" id="clientList">
+
+
+
+    <!-- Faixa de texto rolante -->
+    <div class="banner">
+        <div class="marquee">
+            <div class="marquee-container">
+                <span class="marquee-text">🚀 Automatize Suas Vendas Com O WA Sender Clique Em <a href="https://wasenderplus.vercel.app" target="_blank">SAIBA MAIS!</a></span> <span class="marquee-text">🚀 Multiplique Seus Ganhos E Transforme Seu WhatsApp Em Uma Máquina De Vendas! <a href="https://wasenderplus.vercel.app" target="_blank">CLIQUE AQUI</a></span>
+                <!-- Duplicamos os textos para criar o loop perfeito -->
+                <span class="marquee-text">🚀 Automatize Suas Vendas Com O WA Sender Clique Em <a href="https://wasenderplus.vercel.app" target="_blank">SAIBA MAIS!</a></span> <span class="marquee-text">🚀 Multiplique Seus Ganhos E Transforme Seu WhatsApp Em Uma Máquina De Vendas! <a href="https://wasenderplus.vercel.app" target="_blank">CLIQUE AQUI</a></span>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+<!-- Botões de Exportar/Importar -->
+<div class="export-import-buttons">
+    <div class="export-btn-container">
+        <button id="exportButton" class="export-btn" onclick="showExportModal()">Exportar Dados</button>
+        <div id="exportNotification" class="export-notification" style="display: none;">!</div>
+    </div>
+    
+    <button class="import-btn" onclick="document.getElementById('fileInput').click()">Importar Dados</button>
+    <input type="file" id="fileInput" class="file-input" accept=".xlsx,.xls" onchange="importarDados(event)">
+</div>
+
+
+<!-- Modal de Exportação -->
+<div id="exportModal" class="export-modal">
+    <div class="export-modal-content">
+        <h3>Exportar Dados</h3>
+        <p>Selecione o formato para exportação:</p>
+        
+        <input type="text" id="exportName" class="export-modal-input" placeholder="Digite Um Nome Para O PDF">
+        
+        <div class="export-modal-note">
+            <strong>Importante:</strong> Para um backup seguro, recomenda-se o download em formato Excel, pois ele permite a importação dos dados caso seja necessário restaurá-los futuramente. Já o formato PDF é ideal para visualização e impressão.
+        </div>
+        
+        <div class="export-modal-buttons">
+            <button class="export-modal-btn export-pdf-btn" onclick="exportarParaPDF()">Salvar em PDF</button>
+            <button class="export-modal-btn export-excel-btn" onclick="exportarParaExcel()">Salvar em Excel</button>
+            <button class="export-modal-btn export-both-btn" onclick="exportarAmbos()">Salvar Ambos</button>
+            <button class="export-modal-btn export-cancel-btn" onclick="hideExportModal()">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<div class="data-list" id="clientList">
             <h2>Lista de Clientes</h2>
             <table>
                 <thead>
@@ -416,12 +730,15 @@ a {
                 </thead>
                 <tbody id="clientTableBody"></tbody>
             </table>
-        </div>
-    </div>
+</div>
+</div>
 
-
-    <script>
-         const clients = JSON.parse(localStorage.getItem('clients')) || [];
+<script>
+        // Inicializa o jsPDF
+        const { jsPDF } = window.jspdf;
+        
+        const clients = JSON.parse(localStorage.getItem('clients')) || [];
+        let hasUnsavedChanges = false;
 
 function adicionarCliente() {
     const nome = document.getElementById('nome').value;
@@ -438,9 +755,14 @@ function adicionarCliente() {
     clients.push(client);
 
     localStorage.setItem('clients', JSON.stringify(clients));
+    localStorage.setItem('hasUnsavedChanges', 'true');
     atualizarTabela();
     document.getElementById('clientForm').reset();
     document.getElementById('successMessage').style.display = 'block';
+
+    // Marca que há alterações não salvas
+    hasUnsavedChanges = true;
+    updateExportButtonNotification();
 
     setTimeout(() => {
         document.getElementById('successMessage').style.display = 'none';
@@ -458,7 +780,7 @@ function atualizarTabela() {
             <td onclick="copiarTexto('${client.app}', 'App')">${client.app}</td>
             <td onclick="copiarTexto('${client.mac}', 'MAC')">${client.mac}</td>
             <td onclick="copiarTexto('${client.key}', 'Key')">${client.key}</td>
-            <td><button class="delete-btn" onclick="deletarCliente(${index})">Excluir</button></td>
+            <td><button class="delete-btn" onclick="deletarCliente(${index})">Deletar</button></td>
         `;
         clientTableBody.appendChild(row);
     });
@@ -467,7 +789,12 @@ function atualizarTabela() {
 function deletarCliente(index) {
     clients.splice(index, 1);
     localStorage.setItem('clients', JSON.stringify(clients));
+    localStorage.setItem('hasUnsavedChanges', 'true'); 
     atualizarTabela();
+    
+    // Marca que há alterações não salvas
+    hasUnsavedChanges = true;
+    updateExportButtonNotification();
 }
 
 function formatarMac() {
@@ -504,8 +831,189 @@ document.getElementById('search').addEventListener('input', function () {
     });
 });
 
+// Função para mostrar o modal de exportação
+function showExportModal() {
+    document.getElementById('exportModal').style.display = 'flex';
+}
+
+// Função para esconder o modal de exportação
+function hideExportModal() {
+    document.getElementById('exportModal').style.display = 'none';
+}
+
+// Função para atualizar a notificação no botão de exportação
+function updateExportButtonNotification() {
+    const notification = document.getElementById('exportNotification');
+    if (hasUnsavedChanges) {
+        notification.style.display = 'flex';
+        document.getElementById('exportButton').style.backgroundColor = '#4CAF50';
+    } else {
+        notification.style.display = 'none';
+        document.getElementById('exportButton').style.backgroundColor = '#4CAF50';
+    }
+}
+
+// Função para exportar para PDF
+function exportarParaPDF() {
+    const doc = new jsPDF();
+    const exportName = document.getElementById('exportName').value || 'VznPlay';
+    
+    // Título do documento com o nome personalizado
+    doc.text(`Lista de Clientes - ${exportName}`, 14, 15);
+    
+    // Cabeçalhos da tabela
+    const headers = [["Nome", "App", "MAC", "Key"]];
+    
+    // Dados da tabela
+    const data = clients.map(client => [client.nome, client.app, client.mac, client.key]);
+    
+    // Adiciona a tabela ao PDF
+    doc.autoTable({
+        head: headers,
+        body: data,
+        startY: 20,
+        styles: {
+            halign: 'center',
+            cellPadding: 2,
+            fontSize: 8
+        },
+        headStyles: {
+            fillColor: [255, 145, 0],
+            textColor: 0
+        }
+
+    });
+    
+    // Rodapé do PDF
+    const date = new Date();
+    const footerText = `Relatório PDF gerado pelo Gerenciador de MACs – VznPlay © ${date.getFullYear()} | Todos os direitos reservados.`;
+    doc.setFontSize(8);
+    doc.text(footerText, 14, doc.internal.pageSize.height - 10);
+    
+    // Salva o PDF
+    doc.save(`clientes_${exportName}.pdf`);
+    
+    // Marca que as alterações foram salvas
+    hasUnsavedChanges = false;
+    updateExportButtonNotification();
+    hideExportModal();
+
+    localStorage.setItem('hasUnsavedChanges', 'false');
+    hasUnsavedChanges = false;
+    updateExportButtonNotification();
+}
+
+// Função para exportar para Excel
+function exportarParaExcel() {
+    // Cria uma nova workbook
+    const wb = XLSX.utils.book_new();
+    
+    // Converte os dados para uma worksheet
+    const ws = XLSX.utils.json_to_sheet(clients);
+    
+    // Adiciona a worksheet à workbook
+    XLSX.utils.book_append_sheet(wb, ws, "Clientes");
+    
+    // Salva o arquivo Excel
+    XLSX.writeFile(wb, 'clientes_vznplay.xlsx');
+    
+    // Marca que as alterações foram salvas
+    hasUnsavedChanges = false;
+    updateExportButtonNotification();
+    hideExportModal();
+
+    localStorage.setItem('hasUnsavedChanges', 'false');
+    hasUnsavedChanges = false;
+    updateExportButtonNotification();
+
+}
+
+// Função para exportar para ambos os formatos
+function exportarAmbos() {
+    exportarParaPDF();
+    setTimeout(() => {
+        exportarParaExcel();
+    }, 500);
+
+    localStorage.setItem('hasUnsavedChanges', 'false');
+    hasUnsavedChanges = false;
+    updateExportButtonNotification();
+
+}
+
+// Função para importar dados
+function importarDados(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const data = e.target.result;
+        importarDeExcel(data);
+    };
+    
+    reader.readAsArrayBuffer(file);
+}
+
+// Função para importar de Excel
+function importarDeExcel(data) {
+    try {
+        const workbook = XLSX.read(data, { type: 'array' });
+        const firstSheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[firstSheetName];
+        
+        // Converter para JSON
+        const jsonData = XLSX.utils.sheet_to_json(worksheet);
+        
+        if (jsonData.length > 0) {
+            // Verifica se os dados têm a estrutura esperada
+            const primeiroItem = jsonData[0];
+            if (primeiroItem.nome && primeiroItem.app && primeiroItem.mac && primeiroItem.key) {
+                // Limpa os clientes existentes e adiciona os novos
+                clients.length = 0;
+                jsonData.forEach(item => {
+                    clients.push({
+                        nome: item.nome,
+                        app: item.app,
+                        mac: item.mac,
+                        key: item.key
+                    });
+                });
+                
+                localStorage.setItem('clients', JSON.stringify(clients));
+                atualizarTabela();
+                mostrarAlerta("Dados importados com sucesso!");
+                
+                // Marca que há alterações não salvas (pois foram importados novos dados)
+                hasUnsavedChanges = true;
+                updateExportButtonNotification();
+            } else {
+                alert("O arquivo Excel não tem o formato esperado. Certifique-se de que contém as colunas: nome, app, mac e key.");
+            }
+        } else {
+            alert("O arquivo Excel está vazio.");
+        }
+    } catch (error) {
+        console.error("Erro ao importar dados:", error);
+        alert("Ocorreu um erro ao importar os dados. Verifique o arquivo e tente novamente.");
+    }
+}
+
+// Verifica se há alterações não salvas ao carregar a página
+window.addEventListener('load', function() {
+    // Verifica o flag no localStorage
+    hasUnsavedChanges = localStorage.getItem('hasUnsavedChanges') === 'true';
+    updateExportButtonNotification();
+});
+
 atualizarTabela();
-    </script>
+</script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js');
+  }
+</script>
 
 
 </body>
