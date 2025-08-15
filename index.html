@@ -905,7 +905,7 @@ function exportarParaPDF() {
     doc.text(footerText, 14, doc.internal.pageSize.height - 10);
     
     // Salva o PDF
-    doc.save(`clientes_${exportName}.pdf`);
+    doc.save(`Mac_Clientes.pdf`);
     
     // Marca que as alterações foram salvas
     hasUnsavedChanges = false;
@@ -929,7 +929,7 @@ function exportarParaExcel() {
     XLSX.utils.book_append_sheet(wb, ws, "Clientes");
     
     // Salva o arquivo Excel
-    XLSX.writeFile(wb, 'clientes_vznplay.xlsx');
+    XLSX.writeFile(wb, 'Mac_Clientes.xlsx');
     
     // Marca que as alterações foram salvas
     hasUnsavedChanges = false;
